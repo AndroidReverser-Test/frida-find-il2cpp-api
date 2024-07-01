@@ -29,9 +29,6 @@ function hook_call_constructors() {
                     if(soname.indexOf("libunity.so")!=-1){
                         get_il2cpp_api();
                     }
-                    if(soname.indexOf("libil2cpp.so")!=-1){
-                        get_il2cpp_base();
-                    }
                     soflags.push(soname);
                 }
             }
@@ -39,30 +36,34 @@ function hook_call_constructors() {
     }
 }
  
-function get_il2cpp_base(){
-    il2cpp_base = Process.findModuleByName("libil2cpp.so").base;
-}
+
 
 
 function get_il2cpp_api(){
-    let unity_base = Process.findModuleByName("libunity.so").base;
 
-    let LookupSymbol_addr = unity_base.add(0x34E198);//ida搜索il2cpp: function il2cpp_init not found可快速定位
-
-    Interceptor.attach(LookupSymbol_addr,{
+    let dlsym_addr = Module.findExportByName(null,"dlsym");
+    Interceptor.attach(dlsym_addr,{
         onEnter:function(args){
             this.api_name = args[1].readCString();
+            if(this.api_name.indexOf("il2cpp")==0){
+                this.flag = true;
+            }
         },
         onLeave:function(ret){
-            il2cpp_api[this.api_name] = ret.sub(il2cpp_base);
+            if(this.flag){
+                il2cpp_api[this.api_name] = ret.sub(0x0);
+            }
         }
     })
+
+    
 }
 
 function print(){
+    let il2cpp_base = Process.findModuleByName("libil2cpp.so").base;
     console.log("var il2cpp_api = {");
     for(let key in il2cpp_api){
-        console.log('"'+key+'"'+":"+il2cpp_api[key]+",");
+        console.log('"'+key+'"'+":"+il2cpp_api[key].sub(il2cpp_base)+",");
     }
     console.log("};");
 }
@@ -70,7 +71,7 @@ function print(){
 function main(){
     hook_call_constructors();
 }
- 
-var il2cpp_base = NULL;
+
 var il2cpp_api = {};
+var il2cpp_api_int = [];
 main();
