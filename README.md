@@ -6,6 +6,9 @@ il2cpp_class_get_methods对应的偏移可在ida解析完libil2cpp.so之后直�
 "InternalArray__"通过其交叉引用定位到需要的函数附近
 ![il2cpp_class_get_methods](./images/il2cpp_class_get_methods.JPG)
 图上标识的函数的地址即是需要的偏移
+或者搜索字符串"ConstructorInfo"，该字符串只在较低版本的unity版本中存在
+![il2cpp_class_get_methods2](./images/il2cpp_class_get_methods2.JPG)
+
 
 il2cpp_method_get_name，il2cpp_class_get_name，il2cpp_class_get_namespace，
 il2cpp_class_get_type，il2cpp_method_get_param，il2cpp_method_get_param_count的偏移查找方式都是相似的。
