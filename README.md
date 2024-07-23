@@ -38,6 +38,8 @@ il2cpp_method_get_param对应的间接跳转函数需要搜索字符串"Script e
 il2cpp_method_get_param_count对应的间接跳转函数需要搜索字符串"Failed to call function %s of class %s\n"再通过交叉引用定位到函数调用附近处
 ![il2cpp_method_get_param_count](./images/il2cpp_method_get_param_count.JPG)
 
+il2cpp_class_from_type对应的间接跳转函数需要搜索字符串"Unsupported enum type '%s' used for field '%s' in class '%s'"再通过交叉引用定位到函数调用附近处
+![il2cpp_class_from_type](./images/il2cpp_class_from_type.JPG)
 
 
 在正确找到并修改上述所需的7个偏移后，待游戏完成加载后注入该脚本，并主动调用find_il2cpp_api函数即可打印出所需的il2cpp_api
