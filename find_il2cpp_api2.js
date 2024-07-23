@@ -8,10 +8,10 @@ function find_il2cpp_api(){
     let il2cpp_method_get_name = unity_base.add(0x350C868);
     let il2cpp_class_get_name = unity_base.add(0x350C618);
     let il2cpp_class_get_namespace = unity_base.add(0x350C628);
+    let il2cpp_class_from_type = unity_base.add(0x350C898);
     let il2cpp_class_get_type = unity_base.add(0x350C678);
     let il2cpp_method_get_param = unity_base.add(0x350C8A0);
     let il2cpp_method_get_param_count = unity_base.add(0x350C898);
-    let il2cpp_class_from_type = unity_base.add(0x350C898);
     
     fil2cpp_api["il2cpp_method_get_name"] = il2cpp_method_get_name.readPointer().sub(il2cpp_base);
     fil2cpp_api["il2cpp_class_get_name"] = il2cpp_class_get_name.readPointer().sub(il2cpp_base);
